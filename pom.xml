@@ -38,6 +38,17 @@
     <!-- Propriétés spécifiques au projet, ici la version de Java utilisée -->
     <properties>
         <java.version>17</java.version>
+
+
+            <!-- Connexion SonarCloud -->
+            <sonar.projectKey>samar-lafi_beestore-java</sonar.projectKey>
+            <sonar.organization>samar-lafi</sonar.organization>
+            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+            <!-- Indique à SonarCloud où trouver le rapport JaCoCo -->
+            <sonar.coverage.jacoco.xmlReportPaths>
+                target/site/jacoco/jacoco.xml
+            </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <!-- Dépendances nécessaires pour le projet -->
@@ -103,6 +114,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+            <!-- Actuator : expose /actuator/health pour la supervision (Docker, Kubernetes) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+            </dependency>
+
 
     </dependencies>
 
@@ -140,6 +157,52 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <!-- JaCoCo : mesure la couverture de test -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <!-- Instrumente le code avant l'exécution des tests -->
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- Génère le rapport HTML + XML après les tests -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <!-- (optionnel) Fait échouer le build si la couverture est trop basse -->
+<!--                    <execution>-->
+<!--                        <id>check</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <rules>-->
+<!--                                <rule>-->
+<!--                                    <element>BUNDLE</element>-->
+<!--                                    <limits>-->
+<!--                                        <limit>-->
+<!--                                            <counter>LINE</counter>-->
+<!--                                            <value>COVEREDRATIO</value>-->
+<!--                                            <minimum>0.70</minimum>-->
+<!--                                        </limit>-->
+<!--                                    </limits>-->
+<!--                                </rule>-->
+<!--                            </rules>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+                </executions>
+            </plugin>
+
 
         </plugins>
     </build>
