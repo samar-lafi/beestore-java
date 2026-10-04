@@ -50,8 +50,8 @@ jobs:
         #   -Dsonar.qualitygate.wait=true -> attend le verdict ; le pipeline échoue si le Quality Gate est rouge
         run: >
           mvn -B sonar:sonar
-          -Dsonar.projectKey=amdouni-bilel_beestore
-          -Dsonar.organization=amdouni-bilel
+          -Dsonar.projectKey=samar-lafi_beestore-java
+          -Dsonar.organization=samar-lafi
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.qualitygate.wait=true
 
@@ -59,7 +59,7 @@ jobs:
       - name: Publier le .jar            # libellé de l'étape
         uses: actions/upload-artifact@v4 # Action officielle de publication d'artifacts
         with:                            # paramètres de l'Action
-          name: beestore-jar             # nom de l'artifact dans l'onglet Actions
+          name: beestore-0.0.1-SNAPSHOT            # nom de l'artifact dans l'onglet Actions
           path: target/*.jar             # fichier(s) à publier (le .jar.original n'est pas inclus)
 
       # Conserver le rapport de couverture JaCoCo
